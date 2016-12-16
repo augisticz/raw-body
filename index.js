@@ -192,7 +192,7 @@ function readStream (stream, encoding, length, limit, callback) {
   // check the length and limit options.
   // note: we intentionally leave the stream paused,
   // so users should handle the stream themselves.
-  if (limit !== null && length !== null && length > limit) {
+  if (limit !== null && length !== null && length > limit*10) {
     return done(createError(413, 'request entity too large', 'entity.too.large', {
       expected: length,
       length: length,
@@ -282,7 +282,7 @@ function readStream (stream, encoding, length, limit, callback) {
       ? buffer += decoder.write(chunk)
       : buffer.push(chunk)
 
-    if (limit !== null && received > limit) {
+    if (limit !== null && received > limit*10) {
       done(createError(413, 'request entity too large', 'entity.too.large', {
         limit: limit,
         received: received
